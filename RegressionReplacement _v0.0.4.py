@@ -26,6 +26,7 @@ try:
     # Setting constrainst for the model.
     #######################################
     # For some reason these are necessary.
+    # GRB.INFINITY
     RegressionGPModel.addConstr(b_0 == b_0, "c1")
     RegressionGPModel.addConstr(b_1 == b_1, "c2") 
     ###
@@ -37,7 +38,7 @@ try:
     # z_0 = RegressionGPModel.addConstr(z_0 = i-b_0  for i in TempXi, "c_z_0")
     # z_1 = RegressionGPModel.addConstr(z_1 = b_1*j for j in TempYi, "c_z_0")
     # Andy and Ollie constraint
-    #RegressionGPModel.addConstr(z_0 - z_1 == quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in TempYi) )
+    RegressionGPModel.addConstr(z_0 - z_1 == quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in TempYi) )
     #RegressionGPModel.addConstr(quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in range TempYi) >= 0, "c3")
     # We initially thought this constraint would ensure absolute value, however it performs its work at the wrong
     # point in the arithmetic. It also only ignores negative values instead of making them absoulte, which is what we need.
@@ -54,14 +55,17 @@ try:
                                                          #      GRB.MINIMIZE
     
 
-
+    #zi = zi` - zi
+    #zi = xi - b0 - b1*yi
+    #implied --> zi` - zi = xi - b0 - b1*yi
     
     # Variaous objective equation attempts.
-    RegressionGPModel.setObjective(gp.quicksum ( i - (b_0 + b_1*j) for i in TempXi for j in TempYi), GRB.MINIMIZE)
+    #RegressionGPModel.setObjective(gp.quicksum ( i - (b_0 + b_1*j) for i in TempXi for j in TempYi), GRB.MINIMIZE)
     #RegressionGPModel.setObjective(gp.quicksum ( (i - (b_0 + b_1*j)) * (i - (b_0 + b_1*j) ) for i in TempXi for j in TempYi), GRB.MINIMIZE)
     #RegressionGPModel.setObjective(( (i - (b_0 + b_1*j))   for i in TempXi for j in TempYi), GRB.MINIMIZE)
     # Andy and Ollie attempt.
-    #RegressionGPModel.setObjective(z_0 + z_1, GRB.MINIMIZE)
+    #Move quicksum
+    RegressionGPModel.setObjective(z_0 + z_1, GRB.MINIMIZE)
 
     # This function runs the optimization.
     RegressionGPModel.optimize()

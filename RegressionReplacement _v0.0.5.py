@@ -44,7 +44,7 @@ try:
     # z_1 = RegressionGPModel.addConstr(z_1 = b_1*j for j in TempYi, "c_z_0")
     
     # New 0.5 version contr
-    RegressionGPModel.addConstr(RegressionGPModel.addConstr(z[i] == TempXi[i] - b_0 + b_1*(TempYi[i]) for i in range(0,10)))
+    RegressionGPModel.addConstr(z[i] == TempXi[i] - b_0 + b_1*(TempYi[i]) for i in range(0,10))
     RegressionGPModel.addConstr(z[i] == z_0[i] - z_1[i] for i in range (10))
     
     #RegressionGPModel.addConstr(quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in range TempYi) >= 0, "c3")

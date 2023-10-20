@@ -1,5 +1,3 @@
-
-
 import gurobipy as gp
 from gurobipy import GRB, quicksum
 import numpy as np
@@ -18,13 +16,17 @@ try:
     # These are the intercept and slope in a regression.  
     b_0 = RegressionGPModel.addVar(vtype = "C", name="b_0")
     b_1 = RegressionGPModel.addVar(vtype = "C", name="b_1")
+    z = RegressionGPModel.addVar(obj=1, name = "z")
+    #z_0 = RegressionGPModel.addVar(obj=1, name = "z_0")
+    #z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
+    
     
     # These are temporary place holders for data which we manipulate.
     TempXi = range(1,11)
     TempYi = range(1,11)
     # Giving value of the range
-    #z = range (0,10)
-    #z_0 = range (0,10)
+    z_1 = range (0,10)
+    z_0 = range (0,10)
     #z_1 = range (0,10)
     
     # Setting constrainst for the model.
@@ -36,16 +38,16 @@ try:
     ###
     # These are attempts to use the Andy & Ollie absolute value solution.
     ### V1
-    z = RegressionGPModel.addVar(obj=1, name = "z")
-    z_0 = RegressionGPModel.addVar(obj=1, name = "z_0")
-    z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
+    
     ### V2
     # z_0 = RegressionGPModel.addConstr(z_0 = i-b_0  for i in TempXi, "c_z_0")
     # z_1 = RegressionGPModel.addConstr(z_1 = b_1*j for j in TempYi, "c_z_0")
     
     # New 0.5 version contr
-    RegressionGPModel.addConstr(z[i] == TempXi[i] - b_0 + b_1*(TempYi[i]) for i in range(0,10))
-    RegressionGPModel.addConstr(z[i] == z_0[i] - z_1[i] for i in range (10))
+    RegressionGPModel.addConstrs(TempXi[i] - b_0 - b_1 * TempYi[i] == z for i in range(10))
+    RegressionGPModel.addConstrs(z_0[i] - z_1[i] == z for i in range(10))
+    #RegressionGPModel.addConstr(z_3[i] == TempXi[i] for i in range(10))
+    #RegressionGPModel.addConstr(z[i] == z_0[i] - z_1[i] for i in range (10))
     
     #RegressionGPModel.addConstr(quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in range TempYi) >= 0, "c3")
     # We initially thought this constraint would ensure absolute value, however it performs its work at the wrong
@@ -75,6 +77,7 @@ try:
     #Move quicksum
     #RegressionGPModel.setObjective(z_0 + z_1, GRB.MINIMIZE)
     RegressionGPModel.setObjective( gp.quicksum(z_0[i] + z_1[i] for i in range (10)), GRB.MINIMIZE)
+
 
     # This function runs the optimization.
     RegressionGPModel.optimize()

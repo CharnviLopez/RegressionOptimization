@@ -7,8 +7,8 @@ import math
 
 try:
     #Get a dataset
-    #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-    #TwoVarData = Data.iloc[:,0:1]
+    Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
+    TwoVarData = Data.iloc[:,0:1]
 
     # This names the model after its task- Checking my work for problem 1 on homework 4.
     RegressionGPModel  = gp.Model("RegressionReplacement")
@@ -16,29 +16,25 @@ try:
     # These are the intercept and slope in a regression.  
     b_0 = RegressionGPModel.addVar(vtype = "C", name="b_0")
     b_1 = RegressionGPModel.addVar(vtype = "C", name="b_1")
+    #V0.0.7 additional variables
+    # Because both b_0 and b_1 are fully continuous, they must be standardized
+    b_0p = RegressionGPModel.addVar(vtype = "C", name="b_0p")
+    b_0n = RegressionGPModel.addVar(vtype = "C", name="b_0n")
+    b_1p = RegressionGPModel.addVar(vtype = "C", name="b_1p")
+    b_1n = RegressionGPModel.addVar(vtype = "C", name="b_1n")
+    
     z = RegressionGPModel.addVar(obj=1, name = "z")
-    #z_0 = RegressionGPModel.addVar(obj=1, name = "z_0")
-    #z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
+    z_0 = RegressionGPModel.addVar(obj=1, name = "z_0")
+    z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
     
     
     # These are temporary place holders for data which we manipulate.
     TempXi = range(1,11)
-    TempYi = range(1,21,2)
-    
-    print ("Len x ", len(TempXi))
-    print ("Len y ", len(TempYi))
-    for i in range(10):
-        print(TempXi[i])
-        print(TempYi[i])
-    
-   
- 
-    
-
+    TempYi = range(1,11)
     # Giving value of the range
-    #z_1 = range (0,10)
     #z_0 = TempYi
     #z_1 = TempXi
+   
     
     # Setting constrainst for the model.
     #######################################
@@ -51,22 +47,40 @@ try:
     ### V1
     
     ### V2
-    # z_0 = RegressionGPModel.addConstr(z_0 = i-b_0  for i in TempXi, "c_z_0")
-    # z_1 = RegressionGPModel.addConstr(z_1 = b_1*j for j in TempYi, "c_z_0")
+    #z_0 = RegressionGPModel.addConstr((z_0 == i-b_0  for i in TempXi), "c_z_0")
+    #z_1 = RegressionGPModel.addConstr((z_1 == b_1*j for j in TempYi), "c_z_1")
     
-    # New 0.5 version contr
-    RegressionGPModel.addConstrs(TempYi[i]- b_0 - b_1 *TempXi[i] == z for i in range(len(TempXi)))
-    #RegressionGPModel.addConstrs(z_0[i+1] - z_1[i+1] == z for i in TempYi)
+    #From Dr. Validi
+    # For conceptualization
+    #zi = zi` - zi''
+    #zi = xi - b0 - b1*yi
+    #implied --> zi` - zi'' = xi - b0 - b1*yi
+    # For coding, just use the implied line to skip the other steps.
+    #  zi` - zi'' = xi - b0 - b1*yi
+    
+    
+    # V0.0.5 version contr
+    #RegressionGPModel.addConstr(quicksum(i - b_0 - b_1 * i for i in TempXi) == z_0-z_1 )
+    #RegressionGPModel.addConstr(z_0 - z_1 == z)
     #RegressionGPModel.addConstr(z_3[i] == TempXi[i] for i in range(10))
     #RegressionGPModel.addConstr(z[i] == z_0[i] - z_1[i] for i in range (10))
-    RegressionGPModel.addConstr(z >= 0)    
-
-
+    
+    # V0.0.6 version contr
+    RegressionGPModel.addConstr(quicksum( i - b_0 - b_1*j   for i in TempXi for j in TempYi) ==z)
+    RegressionGPModel.addConstr( z_0 - z_1 >= 0, "A&O c")
+    RegressionGPModel.addConstrs(z = z_0 - z_1 )
     #RegressionGPModel.addConstr(quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in range TempYi) >= 0, "c3")
     # We initially thought this constraint would ensure absolute value, however it performs its work at the wrong
     # point in the arithmetic. It also only ignores negative values instead of making them absoulte, which is what we need.
+    
+    # v0.0.7 Constraints
+    #RegressionGPModel.addConstr(b_0 == b_0p - b_0n, name = "b_0std")
+    #RegressionGPModel.addConstr(b_1 == b_1p - b_1n, name = "b_1std")
+    
+    
     # See Excel sheet for a demonstration.
-    #RegressionGPModel.addConstr(gp.quicksum(i - b_0 - b_1*j  for i in TempXi for j in TempYi)>= 0, "c3")
+    #RegressionGPModel.addConstr(gp.quicksum(i - b_0 - b_1*j  for i in TempXi for j in TempYi) >= 0, "c3")
+    #RegressionGPModel.addConstr(gp.quicksum(i - b_0 - b_1*j  for i in TempXi for j in TempYi) <= 100, "c3")
     
     #This doesn't work.  Attempt to impose ansolute value.
     #RegressionGPModel.addConstr(i - (b_0 + b_1*j)  for i in TempXi for j in TempYi== abs(i - (b_0 + b_1*j)  for i in TempXi for j in TempYi) )
@@ -76,22 +90,21 @@ try:
     # RegressionGPModel.setObjective( gp.quicksum( TwoVarData[0:i,0]- b_0 + (b_1*TwosVarData[0:i,1]))
                                                          #       for i in 10,
                                                          #      GRB.MINIMIZE
-    
-
-    #zi = zi` - zi
-    #zi = xi - b0 - b1*yi
-    #implied --> zi` - zi = xi - b0 - b1*yi
-    
     # Variaous objective equation attempts.
     #RegressionGPModel.setObjective(gp.quicksum ( i - (b_0 + b_1*j) for i in TempXi for j in TempYi), GRB.MINIMIZE)
     #RegressionGPModel.setObjective(gp.quicksum ( (i - (b_0 + b_1*j)) * (i - (b_0 + b_1*j) ) for i in TempXi for j in TempYi), GRB.MINIMIZE)
     #RegressionGPModel.setObjective(( (i - (b_0 + b_1*j))   for i in TempXi for j in TempYi), GRB.MINIMIZE)
+    #######################
+    #V0.0.7
+    ### Give unfeasible or unbounded error
+    #RegressionGPModel.setObjective(   quicksum( (i - ( (b_0p+b_0n) + (b_1p+b_1n)  *j) )   for i in TempXi for j in TempYi), GRB.MINIMIZE)
+    #RegressionGPModel.setObjective(  quicksum (i+b_0p+b_0n + b_1p*j+b_1n*j  for i in TempXi for j in TempYi), GRB.MINIMIZE)
+    #RegressionGPModel.setObjective(   (i-b_0p+b_0n + b_1p*j+b_1n*j  for i in TempXi for j in TempYi), GRB.MINIMIZE)
+    #####################
     # Andy and Ollie attempt.
-    #Move quicksum
-    #RegressionGPModel.setObjective(z_0 + z_1, GRB.MINIMIZE)
-    RegressionGPModel.setObjective( z, GRB.MINIMIZE)
-    #RegressionGPModel.setObjective( quicksum(TempYi[i]- b_0 - b_1 *TempXi[i] for i in range(len(TempXi)))  , GRB.MINIMIZE)
+    RegressionGPModel.setObjective(z_0 + z_1, GRB.MINIMIZE)
 
+    
 
     # This function runs the optimization.
     RegressionGPModel.optimize()

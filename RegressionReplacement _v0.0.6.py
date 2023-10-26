@@ -25,9 +25,9 @@ try:
     TempXi = range(1,11)
     TempYi = range(1,11)
     # Giving value of the range
-    #z_1 = TempXi
     #z_0 = TempYi
-    #z_1 = range (0,10)
+    #z_1 = TempXi
+   
     
     # Setting constrainst for the model.
     #######################################
@@ -40,8 +40,8 @@ try:
     ### V1
     
     ### V2
-    # z_0 = RegressionGPModel.addConstr(z_0 = i-b_0  for i in TempXi, "c_z_0")
-    # z_1 = RegressionGPModel.addConstr(z_1 = b_1*j for j in TempYi, "c_z_0")
+    #z_0 = RegressionGPModel.addConstr((z_0 == i-b_0  for i in TempXi), "c_z_0")
+    #z_1 = RegressionGPModel.addConstr((z_1 == b_1*j for j in TempYi), "c_z_1")
     
     #From Dr. Validi
     # For conceptualization
@@ -53,15 +53,14 @@ try:
     
     
     # V0.0.5 version contr
-    #RegressionGPModel.addConstrs(TempXi[i] - b_0 - b_1 * TempYi[i] == z for i in TempXi)
-    #RegressionGPModel.addConstrs(z_0[i] - z_1[i] == z for i in TempXi)
+    #RegressionGPModel.addConstr(quicksum(i - b_0 - b_1 * i for i in TempXi) == z_0-z_1 )
+    #RegressionGPModel.addConstr(z_0 - z_1 == z)
     #RegressionGPModel.addConstr(z_3[i] == TempXi[i] for i in range(10))
     #RegressionGPModel.addConstr(z[i] == z_0[i] - z_1[i] for i in range (10))
     
     # V0.0.6 version contr
-    RegressionGPModel.addConstr(quicksum( i - b_0 - b_1*j  for i in TempXi for j in TempYi) == z_0 - z_1)
+    RegressionGPModel.addConstr(quicksum( i - b_0 - b_1*j   for i in TempXi for j in TempYi) == z_0 - z_1)
     #RegressionGPModel.addConstrs(z = z_0 - z_1 )
-    
     #RegressionGPModel.addConstr(quicksum( i for i in TempXi) - quicksum(b_0 + b_1*j  for j in range TempYi) >= 0, "c3")
     # We initially thought this constraint would ensure absolute value, however it performs its work at the wrong
     # point in the arithmetic. It also only ignores negative values instead of making them absoulte, which is what we need.

@@ -52,7 +52,7 @@ try:
                                           'Y':Y
                                           })
 
-    BasicRegData = Data.copy() 
+    BasicRegData = Data.copy()
 
     X = BasicRegData['X'].values.reshape(-1,1)
     Y = BasicRegData['Y'].values.reshape(-1,1)
@@ -67,11 +67,10 @@ try:
 
     # This loop prints the values for each decision variable in the model.
     for v in RegressionGPModel.getVars():
-        print('%s %g' % (v.Varname, v.x))
-        #print(b_0)
+        print( v.Varname, v.x)
 
     # This prints the final value of the objective function.
-    print('Obj: %g' % RegressionGPModel.ObjVal)
+    print('Obj:', RegressionGPModel.ObjVal)
 
 # This is an error handler for Gurobi.
 except gp.GurobiError as e:

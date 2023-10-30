@@ -12,10 +12,10 @@ try:
     #Get a dataset
     Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     # TwoVarData = Data.iloc[:,0:1]
-    # TempXi = Data.iloc[0:20,0]
-    # TempYi = Data.iloc[0:20,1]
-    TempXi = range(1,31,3)
-    TempYi = range(1,11)
+    TempXi = Data.iloc[0:20,0]
+    TempYi = Data.iloc[0:20,1]
+    # TempXi = range(1,31,3)
+    # TempYi = range(1,11)
 
 
     # This names the model after its task- Regression by Gurobi
@@ -25,9 +25,9 @@ try:
     b_0 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_0")
     b_1 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_1")
     
-    z = RegressionGPModel.addVar(obj=1, name = "z")
-    z_0 = RegressionGPModel.addVar(obj=1, name = "z_0")
-    z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
+    z = RegressionGPModel.addVars(obj=1, name = "z")
+    z_0 = RegressionGPModel.addVars(obj=1, name = "z_0")
+    z_1 = RegressionGPModel.addVars(obj=1, name = "z_1")
 
     
     BasicRegData = pd.DataFrame({'X': TempXi,

@@ -26,16 +26,7 @@ try:
     for i in range(len(Y)):
         print("Y",i,": ",Y[i], sep = "")
     
-    Data = pd.DataFrame({'X': X,
-                                          'Y':Y
-                                          })
-
-    BasicRegData = Data.copy() 
-
-    #X = BasicRegData['X'].values.reshape(-1,1)
-    #Y = BasicRegData['Y'].values.reshape(-1,1)
-
-    # reg = LinearRegression().fit( X, Y)
+    
     
     # This names the model after its task
     RegressionGPModel  = gp.Model("RegressionReplacement")
@@ -53,14 +44,26 @@ try:
     RegressionGPModel.addConstrs(z[i] == Y[i] - b_1*X[i] - b_0 for i in range(10))
     RegressionGPModel.addConstrs(z[i] == z_1[i] - z_2[i] for i in range(10))
     
-    RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(10)), GRB.MINIMIZE)
+    RegressionGPModel.setObjective(quicksum(z[i] for i in range(10)), GRB.MINIMIZE)
 
     # This function runs the optimization.
     RegressionGPModel.optimize()
     
-    # print("\nBasic regression with given data.")
-    # print("Intercept: ", round(reg.intercept_[0], 3))
-    # print("Coefficient: ", [round(coef, 2) for coef in reg.coef_[0]])
+    Data = pd.DataFrame({'X': X,
+                                          'Y':Y
+                                          })
+
+    BasicRegData = Data.copy() 
+
+    X = BasicRegData['X'].values.reshape(-1,1)
+    Y = BasicRegData['Y'].values.reshape(-1,1)
+
+    reg = LinearRegression().fit( X, Y)
+
+
+    print("\nBasic regression with given data.")
+    print("Intercept: ", round(reg.intercept_[0], 3))
+    print("Coefficient: ", [round(coef, 2) for coef in reg.coef_[0]])
 
     
     print("/n","/n","This is a solution for regression replacement.")
@@ -68,7 +71,6 @@ try:
     # This loop prints the values for each decision variable in the model.
     for v in RegressionGPModel.getVars():
         print('%s %g' % (v.Varname, v.x))
-        #print(b_0)
 
     # This prints the final value of the objective function.
     print('Obj: %g' % RegressionGPModel.ObjVal)

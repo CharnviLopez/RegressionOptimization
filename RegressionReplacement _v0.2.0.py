@@ -10,8 +10,14 @@ from sklearn.metrics._plot import regression
 
 try:
     #Get a dataset
-    # Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
+    Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     # TwoVarData = Data.iloc[:,0:1]
+    TempXi = Data.iloc[0:20,0]
+    TempYi = Data.iloc[0:20,1]
+    # These are temporary place holders for data which we manipulate.
+    # TempXi = range(1,31,3)
+    # TempYi = range(1,11)
+
 
     # This names the model after its task- Regression by Gurobi
     RegressionGPModel  = gp.Model("RegressionReplacement")
@@ -25,9 +31,7 @@ try:
     z_1 = RegressionGPModel.addVar(obj=1, name = "z_1")
     
     
-    # These are temporary place holders for data which we manipulate.
-    TempXi = range(1,31,3)
-    TempYi = range(1,11)
+  
 
     
     BasicRegData = pd.DataFrame({'X': TempXi,

@@ -11,6 +11,7 @@ import math
 
 try:
     #Get a dataset
+
     #Data = pd.read_csv("https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACIOX3BLMTMZHFCAKKVLQENKZKCZHZA")
     Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     #TwoVarData = Data.iloc[:,0:1]
@@ -32,6 +33,8 @@ try:
     # This names the model after its task.
     RegressionGPModel  = gp.Model("RegressionReplacement")
     # This sets the model to handle squaring the error equation.
+
+
     RegressionGPModel.Params.NonConvex = 2
     # These are the intercept and slope in a regression.  
     b_0 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_0")
@@ -58,6 +61,7 @@ try:
     RegressionGPModel.optimize()
     
     
+
     Data = pd.DataFrame({'X': X,
                                           'Y':Y
                                           })
@@ -85,4 +89,3 @@ try:
 # This is an error handler for Gurobi.
 except gp.GurobiError as e:
     print('Error code ' + str(e.errno) +': ' + str(e))
-    

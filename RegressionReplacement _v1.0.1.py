@@ -19,8 +19,9 @@ try:
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
     #TwoVarData = Data.iloc[:,0:1]
-    X = Data.iloc[0:99999,0]
-    Y = Data.iloc[0:99999,1]
+    #X = Data.iloc[0:99,0]
+    #Y = Data.iloc[0:99,1]
+   
 
     #print ("Len X: ", len(X), sep = "")
     #print ("Len Y:  ", len(Y), sep = "")
@@ -37,10 +38,15 @@ try:
     b_1 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_1")
     
     # This objective equariont squares the error to immitate an Ordinary Least Squares (OLS) regression.
-    start = time.time()
-    RegressionGPModel.setObjective(quicksum( (Y[i] - b_1*X[i] - b_0)*(Y[i] - b_1*X[i] - b_0)for i in range(len(X))), GRB.MINIMIZE)
 
-    RegressionGPModel.optimize()
+    start = time.time()
+    for i in range(9999):
+        X = Data.iloc[0:i,0]
+        Y = Data.iloc[0:i,1]
+        RegressionGPModel.setObjective(quicksum( (Y[i] - b_1*X[i] - b_0)*(Y[i] - b_1*X[i] - b_0)for i in range(len(X))), GRB.MINIMIZE)
+        RegressionGPModel.optimize()
+        for v in RegressionGPModel.getVars():
+            print( v.Varname, v.x)
     end = time.time()
     SysMeasureRuntime = end - start
     GurMeasureRuntime = RegressionGPModel.Runtime
@@ -63,6 +69,7 @@ except gp.GurobiError as e:
     print('Error code ' + str(e.errno) +': ' + str(e))
     
 start = time.time()
+################
 Data = pd.DataFrame({'X': X,
                                         'Y':Y
                                         })
@@ -72,6 +79,7 @@ BasicRegData = Data.copy()
 X = BasicRegData['X'].values.reshape(-1,1)
 Y = BasicRegData['Y'].values.reshape(-1,1)
 reg = LinearRegression().fit( X, Y)
+###################################
 end = time.time()
 print("\nPython OLS regression with sklearn package.")
 print("Intercept: ", round(reg.intercept_[0], 5))

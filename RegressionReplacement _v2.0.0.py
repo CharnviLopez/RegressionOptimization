@@ -9,8 +9,9 @@ import pandas as pd
 import math
 import time
 import statsmodels.api as sm
-import numpy as np
 
+
+#LAD
 
 try:
     #Get a dataset
@@ -18,8 +19,8 @@ try:
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
     #TwoVarData = Data.iloc[:,0:1]
-    X = Data.iloc[0:99,0]
-    Y = Data.iloc[0:99,1]
+    X = Data.iloc[0:99999,0]
+    Y = Data.iloc[0:99999,1]
 
     #print ("Len X: ", len(X), sep = "")
     #print ("Len Y:  ", len(Y), sep = "")
@@ -28,6 +29,7 @@ try:
     #for i in range(len(Y)):
        # print("Y",i,": ",Y[i], sep = "")
 
+    start = time.time()
     # This names the model after its task.
     RegressionGPModel  = gp.Model("RegressionReplacement")
     
@@ -46,13 +48,12 @@ try:
     
     RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(len(X))), GRB.MINIMIZE)
     
-    start = time.time()
+ 
     RegressionGPModel.optimize()
     end = time.time()
-    GurobiRunTime = end - start
+    SysMeasureRuntime = end - start
+    GurMeasureRuntime = RegressionGPModel.Runtime
 
-    #This function tell us a more detaild time
-    runtime = RegressionGPModel.Runtime
     
     print("\nGurobi coefficients and error for LAD immitation.")
 
@@ -64,8 +65,8 @@ try:
     print(v[0])
     print(v[1])
     print('SSerror:', RegressionGPModel.ObjVal)
-    print("Gurobi measured run time for Gurobi: %f" % runtime)
-    print("System measured run time for Gurobi: ", GurobiRunTime)
+    print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
+    print("System measured run time for Gurobi: ", SysMeasureRuntime)
 
 # This is an error handler for Gurobi.
 except gp.GurobiError as e:

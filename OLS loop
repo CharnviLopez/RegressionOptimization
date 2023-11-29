@@ -10,6 +10,7 @@ try:
     #Get a dataset
     Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDYRMKKQHMYE3Q3HWLMZLHMAQA')
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
+    ##Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
 
     OLSgpModel  = gp.Model("RegressionReplacement")
     # This sets the model to handle squaring the error equation.

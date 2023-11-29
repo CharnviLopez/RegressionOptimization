@@ -1,0 +1,37 @@
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics._plot import regression
+import array
+import numpy as np
+import scipy.sparse as sp
+import pandas as pd
+import math
+import time
+import statsmodels.api as sm
+
+
+#OLS
+
+try:
+    #Get a dataset
+    Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZQMHVQXNCHH2PUAP4ZLHMRIQ')
+    #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
+    #Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+
+    
+    start = time.time()
+    print(start)
+    Data = pd.DataFrame({'X': X,
+                                        'Y':Y
+                                        })
+
+    BasicRegData = Data.copy()
+
+    X = BasicRegData['X'].values.reshape(-1,1)
+    Y = BasicRegData['Y'].values.reshape(-1,1)
+    reg = LinearRegression().fit( X, Y)
+    end = time.time()
+    print("\nPython OLS regression with sklearn package.")
+    print("Intercept: ", round(reg.intercept_[0], 5))
+    print("Coefficient: ", [round(coef, 5) for coef in reg.coef_[0]])
+    TotalTime = end - start
+    print("Total time", TotalTime)

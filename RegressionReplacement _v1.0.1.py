@@ -18,6 +18,9 @@ try:
     #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACIS7AIDODH2CNBH63XFCHL4ZKMKLGQ')
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    RegData = pd.DataFrame({'X': Data.iloc[:,0],
+                                        'Y':Data.iloc[:,1]
+                                        })
     #TwoVarData = Data.iloc[:,0:1]
     #X = Data.iloc[0:99,0]
     #Y = Data.iloc[0:99,1]
@@ -56,11 +59,11 @@ try:
     print("\nGurobi coefficients and error for OLS immitation.")
 
     # This loop prints the values for each decision variable in the model.
-    for v in RegressionGPModel.getVars():
-        print( v.Varname, v.x)
+    # for v in RegressionGPModel.getVars():
+    #     print( v.Varname, v.x)
 
     # This prints the final value of the objective function.
-    print('SSerror:', RegressionGPModel.ObjVal)
+    #print('SSerror:', RegressionGPModel.ObjVal)
     print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
     print("System measured run time for Gurobi: ", SysMeasureRuntime)
 
@@ -68,20 +71,19 @@ try:
 except gp.GurobiError as e:
     print('Error code ' + str(e.errno) +': ' + str(e))
     
-start = time.time()
+RegStart = time.time()
 ################
-Data = pd.DataFrame({'X': X,
-                                        'Y':Y
-                                        })
 
-BasicRegData = Data.copy()
+for i in range(1,9999):
+    Xreg = RegData.iloc[0:i,0].values.reshape(-1,1)
+    Yreg = RegData.iloc[0:i,1].values.reshape(-1,1)
+    reg = LinearRegression().fit( Xreg, Yreg)
 
-X = BasicRegData['X'].values.reshape(-1,1)
-Y = BasicRegData['Y'].values.reshape(-1,1)
-reg = LinearRegression().fit( X, Y)
+RegEnd = time.time()
+
+
 ###################################
-end = time.time()
 print("\nPython OLS regression with sklearn package.")
-print("Intercept: ", round(reg.intercept_[0], 5))
-print("Coefficient: ", [round(coef, 5) for coef in reg.coef_[0]])
-print("Total time", end-start )
+# print("Intercept: ", round(reg.intercept_[0], 5))
+# print("Coefficient: ", [round(coef, 5) for coef in reg.coef_[0]])
+print("Total time", RegEnd-RegStart )

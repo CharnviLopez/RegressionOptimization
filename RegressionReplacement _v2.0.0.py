@@ -19,8 +19,8 @@ try:
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
     #TwoVarData = Data.iloc[:,0:1]
-    X = Data.iloc[0:99999,0]
-    Y = Data.iloc[0:99999,1]
+    #X = Data.iloc[0:99999,0]
+    #Y = Data.iloc[0:99999,1]
 
     #print ("Len X: ", len(X), sep = "")
     #print ("Len Y:  ", len(Y), sep = "")
@@ -29,7 +29,6 @@ try:
     #for i in range(len(Y)):
        # print("Y",i,": ",Y[i], sep = "")
 
-    start = time.time()
     # This names the model after its task.
     RegressionGPModel  = gp.Model("RegressionReplacement")
     
@@ -38,21 +37,25 @@ try:
     b_1 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_1")
     
     # These variable allow Gurobi to interpret an absolute value for the regression error.
-    z = RegressionGPModel.addVars( range(len(X)), vtype = "C", lb = -GRB.INFINITY, name = "z")
-    z_1 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_1")
-    z_2 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_2")
     
     # This allows for a Least Absolute Distance (LAD) regression method.
-    RegressionGPModel.addConstrs(z[i] == (Y[i] - b_1*X[i] - b_0) for i in range(len(X)))
-    RegressionGPModel.addConstrs(z[i] == z_1[i] - z_2[i] for i in range(len(X)))
+
+
+    start = time.time()
+    for i in range(999):
+        X = Data.iloc[0:i,0]
+        Y = Data.iloc[0:i,1]
+        z = RegressionGPModel.addVars( range(len(X)), vtype = "C", lb = -GRB.INFINITY, name = "z")
+        z_1 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_1")
+        z_2 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_2")
+        RegressionGPModel.addConstrs(z[i] == (Y[i] - b_1*X[i] - b_0) for i in range(len(X)))
+        RegressionGPModel.addConstrs(z[i] == z_1[i] - z_2[i] for i in range(len(X)))
+        RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(len(X))), GRB.MINIMIZE)
     
-    RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(len(X))), GRB.MINIMIZE)
-    
- 
-    RegressionGPModel.optimize()
+        RegressionGPModel.optimize()
     end = time.time()
     SysMeasureRuntime = end - start
-    GurMeasureRuntime = RegressionGPModel.Runtime
+    #GurMeasureRuntime = RegressionGPModel.Runtime
 
     
     print("\nGurobi coefficients and error for LAD immitation.")
@@ -61,28 +64,28 @@ try:
     # for v in RegressionGPModel.getVars():
     #     print( v.Varname, v.x)
 
-    v = RegressionGPModel.getVars()
-    print(v[0])
-    print(v[1])
-    print('SSerror:', RegressionGPModel.ObjVal)
-    print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
+    # v = RegressionGPModel.getVars()
+    # print(v[0])
+    # print(v[1])
+    # print('SSerror:', RegressionGPModel.ObjVal)
+    #print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
     print("System measured run time for Gurobi: ", SysMeasureRuntime)
 
 # This is an error handler for Gurobi.
 except gp.GurobiError as e:
     print('Error code ' + str(e.errno) +': ' + str(e))
     
-start = time.time()
-# Add constant for intercept term
-K = sm.add_constant(X)
+# start = time.time()
+# # Add constant for intercept term
+# K = sm.add_constant(X)
 
-# LAD regression using statsmodels with HuberT norm (robust to outliers)
-lad_model = sm.RLM(Y, K, M=sm.robust.norms.HuberT()).fit()
-end = time.time()
-print("\nPython LAD regression with statsmodels package.")
-print("Coefficients:", lad_model.params[1:]) 
-print("Intercept:", lad_model.params[0]) 
-print("Total time", end-start )
+# # LAD regression using statsmodels with HuberT norm (robust to outliers)
+# lad_model = sm.RLM(Y, K, M=sm.robust.norms.HuberT()).fit()
+# end = time.time()
+# print("\nPython LAD regression with statsmodels package.")
+# print("Coefficients:", lad_model.params[1:]) 
+# print("Intercept:", lad_model.params[0]) 
+# print("Total time", end-start )
 
 
 

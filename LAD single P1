@@ -2,6 +2,7 @@ import pandas as pd
 import time
 import statsmodels.api as sm
 
+#LAD single Python
 
 #Get a dataset
 #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY7H5SP2CZKZJAIZ7EZLHNNEA')

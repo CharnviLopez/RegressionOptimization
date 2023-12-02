@@ -22,4 +22,3 @@ RegEnd = time.time()
 print("\nPython OLS regression with sklearn package.")
 print("Total time", RegEnd - RegStart)        
     
-    

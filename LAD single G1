@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import time
 
-#LAD single
+#LAD single Gurobi
 
 try:
     #Get a dataset

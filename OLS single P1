@@ -19,6 +19,7 @@ RegEnd = time.time()
 #print("Coefficients:", reg.coef_)
 #print("Intercept:", reg.intercept_)
 
+print("\nPython OLS regression with sklearn package.")
 print("Total time", RegEnd - RegStart)        
     
     

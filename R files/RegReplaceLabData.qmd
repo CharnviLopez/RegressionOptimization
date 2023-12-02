@@ -1,0 +1,229 @@
+---
+title: "RegReplacement Lab Data Example"
+format: 
+   html:
+      echo: false
+      warning: false
+editor: visual
+---
+
+```{r}
+library(knitr)
+library(quarto)
+library(psych)
+
+```
+
+# Instance A- 100 data points
+
+```{r}
+a = read.table("XYregData.csv",sep = ",",
+               header = T)
+
+###Change number of data points here.
+RegSubset = a[1:100, ]
+
+ff = lm(Y~X, RegSubset)
+
+```
+
+## Normal linear model
+
+```{r}
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+```
+
+### Coefficients
+
+```{r}
+kable(summary(ff)[4])
+```
+### Absolute sum of residuals
+
+```{r}
+sum(abs(ff$residuals))
+
+```
+<br><br>
+
+## Gurobi calculations
+
+### Coefficients
+
+```{r}
+ff$coefficients[1] = 8.131478702
+ff$coefficients[2] = -0.777281947
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+kable(t(ff$coefficients))
+```
+### Absolute sum of residuals
+
+```{r}
+GurobiResids = RegSubset$Y-predict(ff,RegSubset)
+
+sum(abs(GurobiResids))
+
+```
+
+
+# Instance B- 1,000 data points
+
+```{r}
+a = read.table("XYregData.csv",sep = ",",
+               header = T)
+
+###Change number of data points here.
+RegSubset = a[1:1000, ]
+
+ff = lm(Y~X, RegSubset)
+
+```
+
+```{r}
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+```
+## Normal linear model
+```{r}
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+```
+### Coefficients
+
+```{r}
+kable(summary(ff)[4])
+```
+### Absolute sum of residuals
+
+```{r}
+sum(abs(ff$residuals))
+
+```
+<br><br>
+
+## Gurobi calculations
+
+### Coefficients
+
+```{r}
+ff$coefficients[1] = 8.131478702
+ff$coefficients[2] = -0.777281947
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+kable(t(ff$coefficients))
+```
+### Absolute sum of residuals
+
+```{r}
+GurobiResids = RegSubset$Y-predict(ff,RegSubset)
+
+sum(abs(GurobiResids))
+
+```
+
+
+# Instance C- 10,000 data points
+
+```{r}
+a = read.table("XYregData.csv",sep = ",",
+               header = T)
+
+###Change number of data points here.
+RegSubset = a[1:10000, ]
+
+ff = lm(Y~X, RegSubset)
+
+```
+
+## Normal linear model
+
+```{r}
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+```
+
+### Coefficients
+
+```{r}
+kable(summary(ff)[4])
+```
+### Absolute sum of residuals
+
+```{r}
+sum(abs(ff$residuals))
+
+```
+<br><br>
+
+## Gurobi calculations
+
+### Coefficients
+
+```{r}
+ff$coefficients[1] = 8.131478702
+ff$coefficients[2] = -0.777281947
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+kable(t(ff$coefficients))
+```
+### Absolute sum of residuals
+
+```{r}
+GurobiResids = RegSubset$Y-predict(ff,RegSubset)
+
+sum(abs(GurobiResids))
+
+```
+
+# Instance D- 100,000 data points
+
+```{r}
+a = read.table("XYregData.csv",sep = ",",
+               header = T)
+
+###Change number of data points here.
+RegSubset = a[1:100000, ]
+
+ff = lm(Y~X, RegSubset)
+
+```
+
+## Normal linear model
+```{r}
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+```
+### Coefficients
+
+```{r}
+kable(summary(ff)[4])
+```
+### Absolute sum of residuals
+
+```{r}
+sum(abs(ff$residuals))
+
+```
+<br><br>
+
+## Gurobi calculations
+
+### Coefficients
+
+```{r}
+ff$coefficients[1] = 5.156521596
+ff$coefficients[2] = -0.50431921
+plot(jitter(Y)~X, RegSubset)
+abline(ff)
+kable(t(ff$coefficients))
+```
+### Absolute sum of residuals
+
+```{r}
+GurobiResids = RegSubset$Y-predict(ff,RegSubset)
+
+sum(abs(GurobiResids))
+
+```

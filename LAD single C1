@@ -5,7 +5,7 @@ import math
 import time
 import statsmodels.api as sm
 
-#LAD comparison
+#LAD single comparison
 
 try:
     #Get a dataset

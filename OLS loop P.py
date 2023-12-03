@@ -6,10 +6,9 @@ import time
 #OLS single Python 
 
 #Get a dataset
-#Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZQMHVQXNCHH2PUAP4ZLHMRIQ')
-#Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-#Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
-RegData = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+#Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZQMHVQXNCHH2PUAP4ZLHMRIQ
+RegData = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+#RegData = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
 
 RegStart = time.time() 
 Xreg = RegData.iloc[0:99,0].values.reshape(-1, 1)

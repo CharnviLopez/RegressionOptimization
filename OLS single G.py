@@ -4,13 +4,14 @@ import pandas as pd
 import math
 import time
 
-#OLS loop Gurobi
+#OLS single Gurobi
 
 try:
     #Get a dataset
-    Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDYRMKKQHMYE3Q3HWLMZLHMAQA')
-    #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-    ##Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZQ76XBFBUODUMMCRKZLHMNXA')
+    Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    X = Data.iloc[0:99,0]
+    Y = Data.iloc[0:99,1]
 
     RegressionGPModel  = gp.Model("RegressionReplacement")
     # This sets the model to handle squaring the error equation.
@@ -20,25 +21,18 @@ try:
     b_1 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_1")
     
     # This objective equariont squares the error to immitate an Ordinary Least Squares (OLS) regression.
-
     start = time.time()
-    for i in range(99):
-        X = Data.iloc[0:i,0]
-        Y = Data.iloc[0:i,1]
-        RegressionGPModel.setObjective(quicksum( (Y[i] - b_1*X[i] - b_0)*(Y[i] - b_1*X[i] - b_0)for i in range(len(X))), GRB.MINIMIZE)
-        RegressionGPModel.optimize()
-        for v in RegressionGPModel.getVars():
-            print( v.Varname, v.x)
+    RegressionGPModel.setObjective(quicksum( (Y[i] - b_1*X[i] - b_0)*(Y[i] - b_1*X[i] - b_0)for i in range(len(X))), GRB.MINIMIZE)
+
+    RegressionGPModel.optimize()
     end = time.time()
     SysMeasureRuntime = end - start
     GurMeasureRuntime = RegressionGPModel.Runtime
 
-   
-    
     print("\nGurobi coefficients and error for OLS immitation.")
 
     # This loop prints the values for each decision variable in the model.
-    for v in OLSgpModel.getVars():
+    for v in RegressionGPModel.getVars():
         print( v.Varname, v.x)
 
     # This prints the final value of the objective function.

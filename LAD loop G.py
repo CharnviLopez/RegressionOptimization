@@ -8,12 +8,12 @@ import time
 
 try:
     #Get a dataset
-    Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZBR2M6XQJWBZLDUUKZLHNFPA')
-    #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-    #Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZBR2M6XQJWBZLDUUKZLHNFPA')
+    Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
 
     # This names the model after its task.
     RegressionGPModel  = gp.Model("RegressionReplacement")
+    RegressionGPModel.setParam('OutputFlag', 0)
     
     # These are the intercept and slope in a regression.  
     b_0 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_0")
@@ -35,8 +35,9 @@ try:
     
         RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(len(X))), GRB.MINIMIZE)
         RegressionGPModel.optimize()
-        for v in RegressionGPModel.getVars():
-            print( v.Varname, v.x)
+        print(i)
+        # for v in RegressionGPModel.getVars():
+        #     print( v.Varname, v.x)
     end = time.time()
     SysMeasureRuntime = end - start
     GurMeasureRuntime = RegressionGPModel.Runtime
@@ -44,8 +45,8 @@ try:
     print("\nGurobi coefficients and error for OLS immitation.")
 
     # This loop prints the values for each decision variable in the model.
-    for v in RegressionGPModel.getVars():
-        print( v.Varname, v.x)
+    # for v in RegressionGPModel.getVars():
+    #     print( v.Varname, v.x)
 
     # This prints the final value of the objective function.
     print('SSerror:', RegressionGPModel.ObjVal)

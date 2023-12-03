@@ -12,8 +12,8 @@ try:
     #Get a dataset
     #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDZQ76XBFBUODUMMCRKZLHMNXA')
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-    #Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
-    Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+    Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    #Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
     
     X = Data.iloc[0:99,0]
     Y = Data.iloc[0:99,1]

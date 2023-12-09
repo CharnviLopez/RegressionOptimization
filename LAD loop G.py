@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import time
 
-#LAD loop time in Gurobi
+#LAD loop time with Gurobi
 
 try:
     #Get a dataset from XYregData.csv in Github

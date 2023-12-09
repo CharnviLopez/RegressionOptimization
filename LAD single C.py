@@ -5,7 +5,7 @@ import math
 import time
 import statsmodels.api as sm
 
-#Least Absolute Distance (LAD) comparison Python vs Gurobi
+#Least Absolute Distance (LAD) regression comparison, Python vs Gurobi.
 
 #Get a dataset from XYregData.csv in Github
 #url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'

@@ -11,10 +11,10 @@ import statsmodels.api as sm
 #url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'
 #Data = pd.read_csv(url)
 #Student 1 computer
-#Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
 #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
 #Student 2 computer
-Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+#Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
 
 #Data range input
 X = Data.iloc[0:99,0]

@@ -9,8 +9,9 @@ import time
 try:
     #Get a dataset
     #Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDYRMKKQHMYE3Q3HWLMZLHMAQA')
-    Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
-
+    #Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+    
     RegressionGPModel  = gp.Model("RegressionReplacement")
     # This sets the model to handle squaring the error equation.
     RegressionGPModel.Params.NonConvex = 2
@@ -35,10 +36,6 @@ try:
    
     
     print("\nGurobi coefficients and error for OLS immitation.")
-
-    # This loop prints the values for each decision variable in the model.
-    for v in OLSgpModel.getVars():
-        print( v.Varname, v.x)
 
     # This prints the final value of the objective function.
     print('SSerror:', RegressionGPModel.ObjVal)

@@ -46,7 +46,7 @@ try:
         RegressionGPModel.setObjective(quicksum(z_1[i] + z_2[i] for i in range(len(X))), GRB.MINIMIZE)
         RegressionGPModel.optimize()
         
-        #Print i to know in which regression it on
+        #Print i to know which regression it's on
         print(i)
         
     #Run time, 

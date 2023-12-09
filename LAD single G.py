@@ -58,7 +58,6 @@ try:
     print("Gurobi Intercept:", b_0.X)
     print("Gurobi Coefficient:", b_1.X)
     
-    print('SSerror:', RegressionGPModel.ObjVal)
     print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
     print("System measured run time for Gurobi: ", SysMeasureRuntime)
 

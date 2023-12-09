@@ -2,7 +2,7 @@ import pandas as pd
 import time
 import statsmodels.api as sm
 
-#Least Absolute Distance (LAD) single Python
+#Least Absolute Distance (LAD) single with Python
 
 #Get a dataset from XYregData.csv in Github
 #url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'

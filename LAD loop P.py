@@ -27,7 +27,7 @@ for i in range(3,99):
     #Print i to know which regression it's on
     print(i)
     
-#End time and print results
+#Time stop and print results
 End = time.time()
 print("\nPython LAD regression with statsmodels package.")
 print("Total time", End - Start)

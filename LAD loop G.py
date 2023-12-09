@@ -26,7 +26,7 @@ try:
     b_0 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_0")
     b_1 = RegressionGPModel.addVar(vtype = "C", lb = -GRB.INFINITY, name="b_1")
     
-    #Time start
+    #Timer start
     start = time.time()
     #Data range input, and start of loop
     for i in range(99):

@@ -28,7 +28,7 @@ try:
     
     #Time
     start = time.time()
-    #Data range input
+    #Data range input, and start of loop
     for i in range(99):
         X = Data.iloc[0:i,0]
         Y = Data.iloc[0:i,1]

@@ -2,24 +2,32 @@ import pandas as pd
 import time
 import statsmodels.api as sm
 
-#LAD loop Python
+#Least Absolute Distance (LAD) loop time with Python
 
-#Get a dataset
-#RegData = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY7H5SP2CZKZJAIZ7EZLHNNEA')
-#RegData = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-RegData = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
-#RegData = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+#Get a dataset from XYregData.csv in Github
+#url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'
+#Data = pd.read_csv(url)
+#Student 1 computer
+#Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+#Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
+#Student 2 computer
+Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
 
-RegStart = time.time()    
-for i in range(3,9999):
-    Xreg = RegData.iloc[0:i, 0]
-    Yreg = RegData.iloc[0:i, 1]
+#Time
+Start = time.time() 
+#Data range input, and start of loop
+for i in range(3,99):
+    X = Data.iloc[0:i, 0]
+    Y = Data.iloc[0:i, 1]
     
-    K = sm.add_constant(Xreg)
+    #Python LAD regression with statsmodels package code
+    K = sm.add_constant(X)
+    lad_model = sm.RLM(Y, K, M=sm.robust.norms.HuberT()).fit()
     
-    lad_model = sm.RLM(Yreg, K, M=sm.robust.norms.HuberT()).fit()
+    #Print i to know which regression it's on
     print(i)
     
-RegEnd = time.time()
+#End time and print results
+End = time.time()
 print("\nPython LAD regression with statsmodels package.")
-print("Total time", RegEnd - RegStart)
+print("Total time", End - Start)

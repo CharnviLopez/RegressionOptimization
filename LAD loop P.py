@@ -20,7 +20,7 @@ for i in range(3,99):
     X = Data.iloc[0:i, 0]
     Y = Data.iloc[0:i, 1]
     
-    #Python LAD regression with statsmodels package code
+    # LAD regression using statsmodels with HuberT norm (robust to outliers)
     K = sm.add_constant(X)
     lad_model = sm.RLM(Y, K, M=sm.robust.norms.HuberT()).fit()
     

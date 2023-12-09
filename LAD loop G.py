@@ -12,6 +12,7 @@ try:
     #Data = pd.read_csv(url)
     #Student 1 computer
     Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     #Student 2 computer
     #Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
     

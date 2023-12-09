@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import time
 
-#LAD single Gurobi
+#Least Absolute Distance (LAD) single time with Gurobi
 
 try:
     #Get a dataset from XYregData.csv in Github

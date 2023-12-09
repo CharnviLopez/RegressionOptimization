@@ -16,7 +16,7 @@ try:
     #Student 2 computer
     #Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
     
-    # Assign name to Gurobi
+    # Assign name for Gurobi
     RegressionGPModel  = gp.Model("RegressionReplacement")
     
     #Silence Gurobi Code

@@ -49,12 +49,9 @@ try:
         #Print i to know which regression it's on
         print(i)
         
-    #Run time, 
-        #First two lines is the read time by the code 
-        #The last one is read time by Gurobi
+    #Timer stop
     end = time.time()
     SysMeasureRuntime = end - start
-    GurMeasureRuntime = RegressionGPModel.Runtime
 
     print("\nGurobi coefficients and error for OLS immitation.")
 

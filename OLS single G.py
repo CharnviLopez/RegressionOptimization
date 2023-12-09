@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import time
 
-#Ordinary Least Squares (OLS) single time with Gurobi
+#Ordinary Least Squares (OLS) single with Gurobi
 
 try:
     #Get a dataset from XYregData.csv in Github

@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import time
 
-#LAD loop time with Gurobi
+#Least Absolute Distance (LAD) loop time with Gurobi
 
 try:
     #Get a dataset from XYregData.csv in Github
@@ -38,7 +38,7 @@ try:
         z_1 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_1")
         z_2 = RegressionGPModel.addVars( range(len(X)), vtype = "C", name = "z_2")
         
-        # This allows for a Least Absolute Distance (LAD) regression method.
+        # This allows for a LAD regression method.
         RegressionGPModel.addConstrs(z[i] == (Y[i] - b_1*X[i] - b_0) for i in range(len(X)))
         RegressionGPModel.addConstrs(z[i] == z_1[i] - z_2[i] for i in range(len(X)))
         

@@ -13,7 +13,7 @@ Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregD
 #Student 2 computer
 #Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
 
-#Time start
+#Timer start
 Start = time.time() 
 #Data range input, and start of loop
 for i in range(3,99):

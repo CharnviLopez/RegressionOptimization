@@ -2,25 +2,33 @@ import pandas as pd
 import time
 import statsmodels.api as sm
 
-#LAD single Python
+#Least Absolute Distance (LAD) single Python
 
-#Get a dataset
-#Data = pd.read_csv('https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY7H5SP2CZKZJAIZ7EZLHNNEA')
+#Get a dataset from XYregData.csv in Github
+#url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'
+#Data = pd.read_csv(url)
+#Student 1 computer
+#Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
 #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
-Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
-#Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+#Student 2 computer
+Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
 
-X = Data.iloc[0:99999,0]
-Y = Data.iloc[0:99999,1]
+#Data range input
+X = Data.iloc[0:99,0]
+Y = Data.iloc[0:99,1]
 
+#Timer start
 start = time.time()
-# Add constant for intercept term
-K = sm.add_constant(X)
 
 # LAD regression using statsmodels with HuberT norm (robust to outliers)
+K = sm.add_constant(X)
 lad_model = sm.RLM(Y, K, M=sm.robust.norms.HuberT()).fit()
+
+#Timer stop
 end = time.time()
 
+#Print Python data
 print("\nPython LAD regression with statsmodels package.")
+print("Python Intercept:", intercept)
+print("Python Coefficients:", coefficient)
 print("Total time", end-start )
-#print(lad_model.summary())

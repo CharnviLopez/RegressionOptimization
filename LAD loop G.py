@@ -11,10 +11,10 @@ try:
     #url = 'https://raw.githubusercontent.com/CharnviLopez/RegressionOptimization/main/XYregData.csv?token=GHSAT0AAAAAACK5BZDY6OOBVL2YHUB3H7LOZLU2EPQ'
     #Data = pd.read_csv(url)
     #Student 1 computer
-    Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
+    #Data = pd.read_csv("C:/RegressionOptimizationFoyer/RegressionOptimization/XYregData.csv")
     #Data = pd.read_csv("C:/Users/BlueSteel/Desktop/R files/GurobiRegression/BFIsubset.csv")
     #Student 2 computer
-    #Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
+    Data = pd.read_csv("/Users/Crow/Desktop/POR/XYregData.csv")
     
     # Assign name for Gurobi
     RegressionGPModel  = gp.Model("RegressionReplacement")
@@ -52,16 +52,8 @@ try:
     #Timer stop
     end = time.time()
     SysMeasureRuntime = end - start
-
-    print("\nGurobi coefficients and error for OLS immitation.")
-
-    # This loop prints the values for each decision variable in the model.
-    # for v in RegressionGPModel.getVars():
-    #     print( v.Varname, v.x)
-
-    # This prints the final value of the objective function.
-    print('SSerror:', RegressionGPModel.ObjVal)
-    print("Gurobi measured run time for Gurobi: %f" % GurMeasureRuntime)
+    
+    #Print the run time
     print("System measured run time for Gurobi: ", SysMeasureRuntime)
 
 # This is an error handler for Gurobi.

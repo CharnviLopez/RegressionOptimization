@@ -47,7 +47,7 @@ try:
     RegressionGPModel.optimize()
     
     #Run time, 
-        #First two lines is the read time by the code 
+        #First two lines is to stop the timer
         #The last one is read time by Gurobi
     end = time.time()
     SysMeasureRuntime = end - start
